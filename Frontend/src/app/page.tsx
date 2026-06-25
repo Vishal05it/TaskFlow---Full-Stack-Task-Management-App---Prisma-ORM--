@@ -133,7 +133,7 @@ export default function Home() {
   const [keyword, setKeyword] = useState<string>("");
   let filteredTasks = useMemo(() => {
     if (keyword === "") {
-      setShowTasks(allTasks);
+      return allTasks;
     }
     if (allTasks && allTasks.length > 0) {
       return allTasks.filter(
