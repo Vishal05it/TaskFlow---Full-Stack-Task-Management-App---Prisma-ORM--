@@ -347,7 +347,7 @@ export default function Home() {
                   </div>
 
                   <button
-                    disabled={page >= lastPage}
+                    disabled={page >= lastPage || lastPage <= 1}
                     className="rounded-xl bg-indigo-600 px-6 py-3 font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                     onClick={() => {
                       setPage(page + 1);
