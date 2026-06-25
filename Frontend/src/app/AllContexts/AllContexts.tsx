@@ -43,15 +43,16 @@ type Task = {
 };
 export const allContexts = createContext<Context | null>(null);
 function AllContexts({ children }: { children: ReactNode }) {
-  let storedTheme =
-    typeof window !== "undefined" ? localStorage.getItem("theme") : null;
-  let storedLogin =
-    typeof window !== "undefined" ? localStorage.getItem("isLogin") : null;
-  const [theme, setTheme] = useState<"light" | "dark">(
-    storedTheme ? JSON.parse(storedTheme) : "light",
-  );
-  const storedUser =
-    typeof window !== "undefined" ? localStorage.getItem("taskUser") : null;
+  // let storedTheme =
+  //   typeof window !== "undefined" ? localStorage.getItem("theme") : null;
+  // let storedLogin =
+  //   typeof window !== "undefined" ? localStorage.getItem("isLogin") : null;
+  // const [theme, setTheme] = useState<"light" | "dark">(
+  //   storedTheme ? JSON.parse(storedTheme) : "light",
+  // );
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+  // const storedUser =
+  //   typeof window !== "undefined" ? localStorage.getItem("taskUser") : null;
   const toggleTheme = () => {
     let htmlTag = document.querySelector("html");
     htmlTag?.classList.remove("dark");
@@ -67,21 +68,30 @@ function AllContexts({ children }: { children: ReactNode }) {
     }
   };
   const [lastPage, setLastPage] = useState<number>(1);
-  const [isLogin, setIsLogin] = useState<boolean>(
-    storedLogin ? JSON.parse(storedLogin) : false,
-  );
-  const [user, setUser] = useState<User>(
-    storedUser
-      ? JSON.parse(storedUser)
-      : {
-          name: "",
-          email: "",
-          id: "",
-          phoneNumber: "",
-          bio: "",
-          avatar: "",
-        },
-  );
+  // const [isLogin, setIsLogin] = useState<boolean>(
+  //   storedLogin ? JSON.parse(storedLogin) : false,
+  // );
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+  // const [user, setUser] = useState<User>(
+  //   storedUser
+  //     ? JSON.parse(storedUser)
+  //     : {
+  //         name: "",
+  //         email: "",
+  //         id: "",
+  //         phoneNumber: "",
+  //         bio: "",
+  //         avatar: "",
+  //       },
+  // );
+  const [user, setUser] = useState<User>({
+    name: "",
+    email: "",
+    id: "",
+    phoneNumber: "",
+    bio: "",
+    avatar: "",
+  });
   const [pageLoading, setPageLoading] = useState<boolean>(false);
   const [btnLoading, setBtnLoading] = useState<boolean>(false);
   const [called, setCalled] = useState<boolean>(false);
