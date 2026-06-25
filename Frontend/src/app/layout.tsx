@@ -36,10 +36,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <AllContexts>
-          <Navbar />
-          {children}
-          <ToastContainer
+        {/* <AllContexts>
+          <Navbar /> */}
+        {children}
+        {/* <ToastContainer
             position="top-right"
             autoClose={5000}
             hideProgressBar={false}
@@ -51,7 +51,7 @@ export default function RootLayout({
             pauseOnHover
             theme="light"
           />
-        </AllContexts>
+        </AllContexts> */}
       </body>
     </html>
   );
