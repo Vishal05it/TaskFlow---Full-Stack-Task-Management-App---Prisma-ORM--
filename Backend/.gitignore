@@ -1,0 +1,26 @@
+node_modules
+# Keep environment variables out of version control
+.env
+
+/generated/prisma
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Prisma
+prisma/dev.db
+prisma/dev.db-journal
+
+# Build
+dist/
+build/
+
+# Turbo
+.turbo/
+
+# VS Code
+.vscode/
+
+# Coverage
+coverage/
