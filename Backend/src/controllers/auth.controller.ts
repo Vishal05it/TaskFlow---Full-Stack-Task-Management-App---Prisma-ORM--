@@ -88,6 +88,7 @@ export const signUpController = async (req: Request, res: Response) => {
 export const loginController = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
+    console.log("LOGIN ROUTE HIT");
     let actualPassword = password.toString().trim();
     let actuaEmail = email.toString().trim();
     if (!actuaEmail || !actualPassword) {
@@ -160,7 +161,7 @@ export const loginController = async (req: Request, res: Response) => {
       secure: true,
       sameSite: "none",
       path: "/",
-      maxAge: 7 * 24 * 60 * 60,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     await redis.set(
       `activeSession:userId:${findUser.id}`,

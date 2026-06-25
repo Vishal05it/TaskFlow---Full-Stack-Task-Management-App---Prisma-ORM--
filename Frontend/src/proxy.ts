@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 export function proxy(req: NextRequest) {
   const cookieStore = req.cookies;
   const token = cookieStore.get("sessionToken");
+  console.log("Token is : ", token);
   const { pathname } = req.nextUrl;
   const isPublicRoute =
     pathname == "/login" ||
