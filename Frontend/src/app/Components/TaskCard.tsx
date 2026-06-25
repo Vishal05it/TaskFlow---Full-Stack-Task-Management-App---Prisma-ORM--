@@ -99,13 +99,15 @@ function TaskCard({
       if (updateTaskData.success) {
         // successEmitter(updateTaskData.message);
         setAllTasks(
-          allTasks.map((task) => {
-            if (task.id == id) {
-              task.isDone = !task.isDone;
-              task.addedMs = Date.now();
-            }
-            return task;
-          }),
+          allTasks.map((task) =>
+            task.id == id
+              ? {
+                  ...task,
+                  addedMs: Date.now(),
+                  isDone: !task.isDone,
+                }
+              : task,
+          ),
         );
       } else errorEmitter(updateTaskData.message);
     } catch (error) {
