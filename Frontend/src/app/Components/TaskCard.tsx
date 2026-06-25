@@ -247,7 +247,7 @@ function TaskCard({
 
         <div className="mt-8 flex flex-wrap gap-3">
           <button
-            onClick={() => router.push(`/updatetask/${id}`)}
+            onClick={() => router.push(`/edittask/${id}`)}
             className="rounded-xl bg-zinc-800 dark:bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-zinc-700 dark:hover:bg-indigo-500"
           >
             Edit
