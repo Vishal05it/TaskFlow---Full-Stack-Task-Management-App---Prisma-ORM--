@@ -125,9 +125,9 @@ export default function EditTaskPage() {
   };
   useEffect(() => {
     const fetchTask = async () => {
-      // await getTask();
+      await getTask();
     };
-    //fetchTask();
+    fetchTask();
     return () => {
       console.log("Leaving Page...");
     };
