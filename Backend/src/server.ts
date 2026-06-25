@@ -3,8 +3,6 @@ import { connectToDB } from "./config/connectToDB.js";
 import { authRouter } from "./routes/auth.routes.js";
 import { taskRouter } from "./routes/task.routes.js";
 import cors from "cors";
-// import { mediaRouter } from "./routes/media.routes.js";
-console.log("Frontend URL : ", process.env.FRONTEND_URL);
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
