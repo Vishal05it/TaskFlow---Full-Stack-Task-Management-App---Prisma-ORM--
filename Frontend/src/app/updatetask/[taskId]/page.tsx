@@ -70,16 +70,13 @@ export default function EditTaskPage() {
   const getTask = async () => {
     try {
       setPageLoading(true);
-      let response = await fetch(
-        `${baseURL}/task/gettask/${Number(param.taskId)}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
+      let response = await fetch(`${baseURL}/task/gettask/${param.taskId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        credentials: "include",
+      });
       let taskData = await response.json();
       //console.log(taskData);
       if (taskData.success) {
@@ -96,17 +93,14 @@ export default function EditTaskPage() {
   const updateTask = async () => {
     try {
       setBtnLoading(true);
-      let response = await fetch(
-        `${baseURL}/task/updatetask/${Number(param.taskId)}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify(form),
+      let response = await fetch(`${baseURL}/task/updatetask/${param.taskId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        credentials: "include",
+        body: JSON.stringify(form),
+      });
       let editData = await response.json();
       // console.log(editData);
       if (editData.success) {

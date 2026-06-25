@@ -248,7 +248,7 @@ export const deleteTask = async (req: Request | any, res: Response) => {
 export const getTask = async (req: Request | any, res: Response) => {
   try {
     let cachedTask = await redis.get(
-      `taskDetails:user:${req.userId}:task:${req.params.taskId}`,
+      `taskDetails:user:${req.userId}:task:${Number(req.params.taskId)}`,
     );
     if (cachedTask) {
       return res.status(200).json({
