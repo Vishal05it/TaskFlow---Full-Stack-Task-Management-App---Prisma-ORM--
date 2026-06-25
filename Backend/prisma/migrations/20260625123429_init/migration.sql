@@ -22,11 +22,12 @@ CREATE TABLE `Task` (
     `title` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NULL,
     `isDone` BOOLEAN NOT NULL DEFAULT false,
-    `deadline` DATETIME(3) NULL,
+    `deadline` VARCHAR(191) NULL,
     `priority` ENUM('LOW', 'MEDIUM', 'HIGH') NOT NULL DEFAULT 'MEDIUM',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `createdBy` INTEGER NOT NULL,
+    `addedMs` BIGINT NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
