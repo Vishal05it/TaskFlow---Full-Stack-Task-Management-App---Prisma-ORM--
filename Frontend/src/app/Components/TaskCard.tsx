@@ -102,6 +102,7 @@ function TaskCard({
           allTasks.map((task) => {
             if (task.id == id) {
               task.isDone = !task.isDone;
+              task.addedMs = Date.now();
             }
             return task;
           }),
