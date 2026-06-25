@@ -9,3 +9,7 @@ export const transport = nodemailer.createTransport({
   },
   connectionTimeout: 30000,
 });
+transport.verify((err, success) => {
+  console.log("VERIFY ERROR:", err);
+  console.log("VERIFY SUCCESS:", success);
+});
