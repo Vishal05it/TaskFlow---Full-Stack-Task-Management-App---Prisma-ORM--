@@ -7,4 +7,5 @@ export const transport = nodemailer.createTransport({
     user: process.env.BREVO_LOGIN,
     pass: process.env.BREVO_PASSWORD,
   },
+  connectionTimeout: 30000,
 });
