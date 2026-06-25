@@ -157,9 +157,10 @@ export const loginController = async (req: Request, res: Response) => {
     // console.log("Token : ", sessionToken);
     res.cookie("sessionToken", sessionToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       sameSite: "none",
       path: "/",
+      maxAge: 7 * 24 * 60 * 60,
     });
     await redis.set(
       `activeSession:userId:${findUser.id}`,
