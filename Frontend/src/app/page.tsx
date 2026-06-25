@@ -154,6 +154,11 @@ export default function Home() {
       setShowTasks(filteredTasks);
     }
   }, [keyword]);
+  useEffect(() => {
+    if (!lastPage) {
+      setLastPage(1);
+    }
+  }, []);
   return (
     <>
       {isLogin ? (
