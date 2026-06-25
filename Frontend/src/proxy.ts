@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { useAllContexts } from "./app/AllContexts/AllContexts";
 
 export function proxy(req: NextRequest) {
+  const { isLogin } = useAllContexts();
   const cookieStore = req.cookies;
   const token = cookieStore.get("sessionToken");
   console.log("Token is : ", token);
@@ -11,9 +13,9 @@ export function proxy(req: NextRequest) {
     pathname == "/forgotpassword" ||
     pathname == "/resetpassword" ||
     pathname.startsWith("/verifyaccount");
-  if (!token && !isPublicRoute)
-    return NextResponse.redirect(new URL("/login", req.url));
-  if (token && isPublicRoute)
+  // if (!token && !isPublicRoute)
+  //   return NextResponse.redirect(new URL("/login", req.url));
+  if (isLogin && isPublicRoute)
     return NextResponse.redirect(new URL("/", req.url));
   return NextResponse.next();
 }
