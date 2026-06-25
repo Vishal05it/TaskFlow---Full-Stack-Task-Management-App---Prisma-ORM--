@@ -21,6 +21,6 @@ const startServer = async () => {
 };
 startServer();
 // ---- Routes logic here -----
-app.use("/api/v1.1/auth", authRouter);
-app.use("/api/v1.1/task", taskRouter);
+app.use("/auth", authRouter);
+app.use("/task", taskRouter);
 // app.use("/media", mediaRouter);
