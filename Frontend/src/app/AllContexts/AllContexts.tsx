@@ -1,11 +1,5 @@
 "use client";
-import React, {
-  ReactNode,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { ReactNode, SetStateAction, useContext, useState } from "react";
 import { createContext } from "react";
 type Context = {
   theme: string;
@@ -49,12 +43,15 @@ type Task = {
 };
 export const allContexts = createContext<Context | null>(null);
 function AllContexts({ children }: { children: ReactNode }) {
-  let storedTheme;
-  let storedLogin;
+  let storedTheme =
+    typeof window !== "undefined" ? localStorage.getItem("theme") : null;
+  let storedLogin =
+    typeof window !== "undefined" ? localStorage.getItem("isLogin") : null;
   const [theme, setTheme] = useState<"light" | "dark">(
     storedTheme ? JSON.parse(storedTheme) : "light",
   );
-  let storedUser;
+  const storedUser =
+    typeof window !== "undefined" ? localStorage.getItem("taskUser") : null;
   const toggleTheme = () => {
     let htmlTag = document.querySelector("html");
     htmlTag?.classList.remove("dark");
@@ -89,22 +86,7 @@ function AllContexts({ children }: { children: ReactNode }) {
   const [btnLoading, setBtnLoading] = useState<boolean>(false);
   const [called, setCalled] = useState<boolean>(false);
   const [allTasks, setAllTasks] = useState<Task[]>([]);
-  useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
-    if (storedTheme) {
-      setTheme(JSON.parse(storedTheme));
-    }
 
-    const storedLogin = localStorage.getItem("isLogin");
-    if (storedLogin) {
-      setIsLogin(JSON.parse(storedLogin));
-    }
-
-    const storedUser = localStorage.getItem("taskUser");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
   return (
     <allContexts.Provider
       value={{
