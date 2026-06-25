@@ -10,6 +10,7 @@ import { redis } from "../config/redis.js";
 import jwt from "jsonwebtoken";
 import { otpGenerator } from "../utils/otpGenerator.js";
 import { transport } from "../config/nodemailer.js";
+import { brevo } from "../config/brevo.js";
 export const signUpController = async (req: Request, res: Response) => {
   try {
     let body = req.body;
@@ -227,13 +228,19 @@ export const sendOTP = async (req: Request, res: Response) => {
     let salt = await bcrypt.genSalt(10);
     let hashOTP = await bcrypt.hash(otp.toString(), salt);
     await redis.set(`accountVerify:email:${email}`, hashOTP, { EX: 120 });
-
-    transport.sendMail(
-      {
-        from: process.env.EMAIL,
-        to: email,
-        subject: "Account Verification",
-        html: `<!DOCTYPE html>
+    brevo.transactionalEmails.sendTransacEmail({
+      sender: {
+        email: process.env.EMAIL,
+        name: "TaskFlow",
+      },
+      to: [
+        {
+          email: email as string,
+          name: userExist.name,
+        },
+      ],
+      subject: "Account Verification",
+      htmlContent: `<!DOCTYPE html>
 <html>
   <body
     style="
@@ -353,13 +360,139 @@ export const sendOTP = async (req: Request, res: Response) => {
     </div>
   </body>
 </html>`,
-      },
-      (err, info) => {
-        if (err) {
-          console.log(`Error while sending the mail`, err);
-        } else console.log(`Mail success fully sent to ${email} : `, info);
-      },
-    );
+    });
+    //     transport.sendMail(
+    //       {
+    //         from: process.env.EMAIL,
+    //         to: email,
+    //         subject: "Account Verification",
+    //         html: `<!DOCTYPE html>
+    // <html>
+    //   <body
+    //     style="
+    //       margin: 0;
+    //       padding: 0;
+    //       background: #f4f4f5;
+    //       font-family: Arial, Helvetica, sans-serif;
+    //     "
+    //   >
+    //     <div
+    //       style="
+    //         max-width: 600px;
+    //         margin: 40px auto;
+    //         background: #ffffff;
+    //         border-radius: 16px;
+    //         overflow: hidden;
+    //         border: 1px solid #e4e4e7;
+    //       "
+    //     >
+    //       <div
+    //         style="
+    //           background: #18181b;
+    //           padding: 30px;
+    //           text-align: center;
+    //         "
+    //       >
+    //         <h1 style="color: white; margin: 0; font-size: 28px;">
+    //           Task Manager
+    //         </h1>
+    //       </div>
+
+    //       <div style="padding: 40px;">
+    //         <h2
+    //           style="
+    //             color: #18181b;
+    //             margin-top: 0;
+    //             margin-bottom: 16px;
+    //           "
+    //         >
+    //           Verify Your Account
+    //         </h2>
+
+    //         <p
+    //           style="
+    //             color: #52525b;
+    //             font-size: 16px;
+    //             line-height: 1.7;
+    //           "
+    //         >
+    //           Hi,
+    //         </p>
+
+    //         <p
+    //           style="
+    //             color: #52525b;
+    //             font-size: 16px;
+    //             line-height: 1.7;
+    //           "
+    //         >
+    //           Hello ${userExist.name}, Thank you for creating your Task Manager account.
+    //           To complete your registration, please use the verification code below.
+    //         </p>
+
+    //         <div
+    //           style="
+    //             margin: 35px 0;
+    //             text-align: center;
+    //           "
+    //         >
+    //           <div
+    //             style="
+    //               display: inline-block;
+    //               background: #18181b;
+    //               color: white;
+    //               padding: 18px 36px;
+    //               font-size: 32px;
+    //               font-weight: bold;
+    //               letter-spacing: 10px;
+    //               border-radius: 12px;
+    //             "
+    //           >
+    //             ${otp}
+    //           </div>
+    //         </div>
+
+    //         <p
+    //           style="
+    //             color: #52525b;
+    //             font-size: 15px;
+    //             line-height: 1.7;
+    //           "
+    //         >
+    //           This OTP is valid for
+    //           <strong>2 minutes</strong>.
+    //           If you didn't create an account, you can safely ignore this email.
+    //         </p>
+
+    //         <hr
+    //           style="
+    //             margin: 30px 0;
+    //             border: none;
+    //             border-top: 1px solid #e4e4e7;
+    //           "
+    //         />
+
+    //         <p
+    //           style="
+    //             color: #71717a;
+    //             font-size: 14px;
+    //             text-align: center;
+    //             margin: 0;
+    //           "
+    //         >
+    //           © 2026 Task Manager • Secure Personal Task Management
+    //         </p>
+    //       </div>
+    //     </div>
+    //   </body>
+    // </html>`,
+    //       },
+    //       (err, info) => {
+    //         if (err) {
+    //           console.log(`Error while sending the mail`, err);
+    //         } else console.log(`Mail success fully sent to ${email} : `, info);
+    //       },
+    //     );
     return res.status(200).json({
       message: `OTP sent to registered email`,
       success: true,
@@ -461,12 +594,18 @@ export const sendOTPforPassword = async (req: Request, res: Response) => {
     let salt = await bcrypt.genSalt(10);
     let hashOTP = await bcrypt.hash(otp.toString(), salt);
     await redis.set(`resetPassOtp:email:${email}`, hashOTP, { EX: 120 });
-    transport.sendMail(
-      {
-        from: process.env.EMAIL,
-        to: email,
-        subject: "TaskFlow Password Reset",
-        html: `<!DOCTYPE html>
+    brevo.transactionalEmails.sendTransacEmail({
+      sender: {
+        email: process.env.EMAIL,
+        name: "TaskFlow",
+      },
+      to: [
+        {
+          email: email as string,
+        },
+      ],
+      subject: "TaskFlow Password Reset",
+      htmlContent: `<!DOCTYPE html>
 <html>
   <body
     style="
@@ -586,13 +725,139 @@ export const sendOTPforPassword = async (req: Request, res: Response) => {
     </div>
   </body>
 </html>`,
-      },
-      (err, info) => {
-        if (err) {
-          console.log(`Error while sending the mail`, err);
-        } else console.log(`Mail success fully sent to ${email} : `, info);
-      },
-    );
+    });
+    //     transport.sendMail(
+    //       {
+    //         from: process.env.EMAIL,
+    //         to: email,
+    //         subject: "TaskFlow Password Reset",
+    //         html: `<!DOCTYPE html>
+    // <html>
+    //   <body
+    //     style="
+    //       margin: 0;
+    //       padding: 0;
+    //       background: #f4f4f5;
+    //       font-family: Arial, Helvetica, sans-serif;
+    //     "
+    //   >
+    //     <div
+    //       style="
+    //         max-width: 600px;
+    //         margin: 40px auto;
+    //         background: #ffffff;
+    //         border-radius: 16px;
+    //         overflow: hidden;
+    //         border: 1px solid #e4e4e7;
+    //       "
+    //     >
+    //       <div
+    //         style="
+    //           background: #18181b;
+    //           padding: 30px;
+    //           text-align: center;
+    //         "
+    //       >
+    //         <h1 style="color: white; margin: 0; font-size: 28px;">
+    //           Task Manager
+    //         </h1>
+    //       </div>
+
+    //       <div style="padding: 40px;">
+    //         <h2
+    //           style="
+    //             color: #18181b;
+    //             margin-top: 0;
+    //             margin-bottom: 16px;
+    //           "
+    //         >
+    //           Verify Your Account
+    //         </h2>
+
+    //         <p
+    //           style="
+    //             color: #52525b;
+    //             font-size: 16px;
+    //             line-height: 1.7;
+    //           "
+    //         >
+    //           Hi,
+    //         </p>
+
+    //         <p
+    //           style="
+    //             color: #52525b;
+    //             font-size: 16px;
+    //             line-height: 1.7;
+    //           "
+    //         >
+    //           Hello ${userExist.name}, You have requested to reset your password.
+    //           To reset your password, please use the verification code below.
+    //         </p>
+
+    //         <div
+    //           style="
+    //             margin: 35px 0;
+    //             text-align: center;
+    //           "
+    //         >
+    //           <div
+    //             style="
+    //               display: inline-block;
+    //               background: #18181b;
+    //               color: white;
+    //               padding: 18px 36px;
+    //               font-size: 32px;
+    //               font-weight: bold;
+    //               letter-spacing: 10px;
+    //               border-radius: 12px;
+    //             "
+    //           >
+    //             ${otp}
+    //           </div>
+    //         </div>
+
+    //         <p
+    //           style="
+    //             color: #52525b;
+    //             font-size: 15px;
+    //             line-height: 1.7;
+    //           "
+    //         >
+    //           This OTP is valid for
+    //           <strong>2 minutes</strong>.
+    //           If you didn't request this OTP, contact us immediately and change your TaskFlow password.
+    //         </p>
+
+    //         <hr
+    //           style="
+    //             margin: 30px 0;
+    //             border: none;
+    //             border-top: 1px solid #e4e4e7;
+    //           "
+    //         />
+
+    //         <p
+    //           style="
+    //             color: #71717a;
+    //             font-size: 14px;
+    //             text-align: center;
+    //             margin: 0;
+    //           "
+    //         >
+    //           © 2026 Task Manager • Secure Personal Task Management
+    //         </p>
+    //       </div>
+    //     </div>
+    //   </body>
+    // </html>`,
+    //       },
+    //       (err, info) => {
+    //         if (err) {
+    //           console.log(`Error while sending the mail`, err);
+    //         } else console.log(`Mail success fully sent to ${email} : `, info);
+    //       },
+    //     );
     return res.status(200).json({
       message: `OTP sent to registered email`,
       success: true,
