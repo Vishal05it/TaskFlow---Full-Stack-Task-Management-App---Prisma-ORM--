@@ -158,7 +158,7 @@ export default function Home() {
     if (!lastPage) {
       setLastPage(1);
     }
-  }, []);
+  }, [lastPage]);
   return (
     <>
       {isLogin ? (
