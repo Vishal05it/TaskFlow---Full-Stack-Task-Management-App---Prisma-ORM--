@@ -7,7 +7,6 @@ import { baseURL } from "@/app/utils/baseURL";
 import { getRealDate } from "@/app/utils/dateFormat";
 import { errorEmitter, successEmitter } from "@/app/utils/emitter";
 import { timeCalc } from "@/app/utils/timeCalc";
-import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 type Form = {
@@ -31,6 +30,7 @@ type Task = {
 };
 
 export default function EditTaskPage() {
+  console.log("Edit Page Rendered");
   const [form, setForm] = useState<Form>({
     title: "Loading Title...",
     deadline: "Loading Deadline...",
@@ -134,6 +134,9 @@ export default function EditTaskPage() {
       await getTask();
     };
     fetchTask();
+    return () => {
+      console.log("Leaving Page...");
+    };
   }, []);
   return (
     <>
