@@ -70,13 +70,21 @@ export default function Home() {
     setShowTasks(allTasks);
   }, [allTasks]);
   const highPriorityTasks = useMemo(() => {
-    return allTasks.filter((task) => task.priority == "HIGH");
+    if (allTasks && allTasks.length > 0) {
+      return allTasks.filter((task) => task.priority == "HIGH");
+    } else {
+      return [];
+    }
   }, [allTasks]);
   const mediumPriorityTasks = useMemo(() => {
-    return allTasks.filter((task) => task.priority == "MEDIUM");
+    if (allTasks && allTasks.length > 0) {
+      return allTasks.filter((task) => task.priority == "MEDIUM");
+    } else return [];
   }, [allTasks]);
   const lowPriorityTasks = useMemo(() => {
-    return allTasks.filter((task) => task.priority == "LOW");
+    if (allTasks && allTasks.length > 0) {
+      return allTasks.filter((task) => task.priority == "LOW");
+    } else return [];
   }, [allTasks]);
   useEffect(() => {
     // console.log("Priority changed : ", filterPriority);
@@ -97,13 +105,17 @@ export default function Home() {
     if (filterStatus == "") {
       return allTasks;
     }
-    return allTasks.filter((task) => task.isDone);
+    if (allTasks && allTasks.length > 0) {
+      return allTasks.filter((task) => task.isDone);
+    } else return [];
   }, [filterStatus]);
   const incompleteTasksArr = useMemo(() => {
     if (filterStatus == "") {
       return allTasks;
     }
-    return allTasks.filter((task) => !task.isDone);
+    if (allTasks && allTasks.length > 0) {
+      return allTasks.filter((task) => !task.isDone);
+    } else return [];
   }, [filterStatus]);
   useEffect(() => {
     // console.log("Filter status changed : ", filterStatus);
