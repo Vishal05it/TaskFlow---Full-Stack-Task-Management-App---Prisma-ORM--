@@ -350,6 +350,11 @@ export default function Home() {
                     disabled={page >= lastPage || lastPage <= 1}
                     className="rounded-xl bg-indigo-600 px-6 py-3 font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                     onClick={() => {
+                      console.log(
+                        "Last Page is : ",
+                        lastPage + " and page is : ",
+                        page,
+                      );
                       setPage(page + 1);
                     }}
                   >
