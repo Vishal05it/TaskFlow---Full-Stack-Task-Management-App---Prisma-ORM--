@@ -135,13 +135,15 @@ export default function Home() {
     if (keyword === "") {
       setShowTasks(allTasks);
     }
-    return allTasks.filter(
-      (task) =>
-        task.title.toLowerCase().includes(keyword.toString().toLowerCase()) ||
-        task.description
-          .toLowerCase()
-          .includes(keyword.toString().toLowerCase()),
-    );
+    if (allTasks && allTasks.length > 0) {
+      return allTasks.filter(
+        (task) =>
+          task.title.toLowerCase().includes(keyword.toString().toLowerCase()) ||
+          task.description
+            .toLowerCase()
+            .includes(keyword.toString().toLowerCase()),
+      );
+    } else return [];
   }, [keyword]);
   useEffect(() => {
     setFilterPriority("");
@@ -340,7 +342,7 @@ export default function Home() {
                   <div className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-5 py-3 text-sm font-medium text-zinc-700 dark:text-zinc-300">
                     Page{" "}
                     <span className="font-bold">
-                      {page} of {lastPage ? lastPage : "Not Found"}
+                      {page} of {lastPage ? lastPage : 1}
                     </span>
                   </div>
 
