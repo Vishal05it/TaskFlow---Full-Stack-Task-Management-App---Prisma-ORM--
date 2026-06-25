@@ -32,7 +32,7 @@ export default function LoginPage() {
         body: JSON.stringify(form),
       });
       let loginData = await response.json();
-      //console.log(loginData);
+      console.log(loginData);
       if (loginData.success) {
         successEmitter(loginData.message);
         router.push("/");
