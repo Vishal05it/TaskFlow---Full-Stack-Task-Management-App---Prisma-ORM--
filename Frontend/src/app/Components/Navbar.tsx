@@ -83,7 +83,7 @@ export default function Navbar() {
   useEffect(() => {
     if (isLogin) {
       let fetchStatus = async () => {
-        await verifyLogin();
+        // await verifyLogin();
       };
       fetchStatus();
     }
