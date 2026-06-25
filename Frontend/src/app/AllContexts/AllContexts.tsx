@@ -1,5 +1,11 @@
 "use client";
-import React, { ReactNode, SetStateAction, useContext, useState } from "react";
+import React, {
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { createContext } from "react";
 type Context = {
   theme: string;
@@ -96,7 +102,22 @@ function AllContexts({ children }: { children: ReactNode }) {
   const [btnLoading, setBtnLoading] = useState<boolean>(false);
   const [called, setCalled] = useState<boolean>(false);
   const [allTasks, setAllTasks] = useState<Task[]>([]);
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme) {
+      setTheme(JSON.parse(storedTheme));
+    }
 
+    const storedLogin = localStorage.getItem("isLogin");
+    if (storedLogin) {
+      setIsLogin(JSON.parse(storedLogin));
+    }
+
+    const storedUser = localStorage.getItem("taskUser");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
   return (
     <allContexts.Provider
       value={{
